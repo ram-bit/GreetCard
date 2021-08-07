@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/greet Html/greet.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="/greet Html/gsap/dict/gsap.js"></script>
+    <script type="module" src="/greet Html/greet.js"></script>
+    <script src="/greet Html/gsap/dict/CSSRulePlugin.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+      <object data="your.svg" type="image/svg+xml">
+        <img src="/greet Html/prateek logo svg.svg" />
+      </object>
+        <div class="content">
+          <div class="envelope" onclick="openCard()" onclick="play()"></div>
+          <div class="letter">
+            <div class="body">
+              <span class="close" onclick="event.stopPropagation(); closeCard()">x</span>
+              <div class="message"><pre>Happy
+Indepedence
+Day!
+              </pre></div>
+            </div>
+          </div>
+          <div class="shadow"></div>
+        </div>
+      </div> 
+
+      <script>
+
+gsap.registerPlugin(CSSRulePlugin);
+
+let t1 = gsap.timeline({ paused: true }); 
+let flap = CSSRulePlugin.getRule(".envelope:before"); 
+var audio = new Audio('Audio.mp3');
+t1.to(flap, { 
+  duration: 0.5, 
+  cssRule: {rotateX: 180}
+})
+ .set(flap, {
+  cssRule: {
+    zIndex: 10
+  }
+})
+ .to('.letter', {
+  translateY: -200,
+  duration: 0.9, 
+  ease: "back.inOut(1.5)"
+})
+ .set('.letter', {
+  zIndex: 40
+})
+ .to('.letter', {
+  duration: .7,  
+  ease: "back.out(.4)",
+  translateY: -5,
+  translateZ: 250
+});
+
+let t2 = gsap.timeline({ paused: true }); 
+t2.to('.shadow', {
+  delay: 1.4,
+  width: 450,
+  boxShadow: "-75px 150px 10px 5px #eeeef3",
+  ease: "back.out(.2)",
+  duration: .7
+}); 
+
+function openCard(e) {
+  t1.play();
+  t2.play();
+  
+  audio.play();
+}
+
+function closeCard(e) {
+  t1.reverse();
+  t2.reverse();
+  audio.pause();
+}
+
+      </script>
+
+</body>
+</html>
